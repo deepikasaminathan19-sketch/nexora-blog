@@ -16,7 +16,7 @@ import { useSEO } from '../utils/seo.js';
 
 export default function Home() {
   useSEO({
-    title: '',
+    title: 'Technology Insights, AI & Software Development',
     description:
       'Explore practical insights in artificial intelligence, machine learning, software development, cloud computing and cybersecurity.'
   });
