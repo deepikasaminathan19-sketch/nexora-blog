@@ -1,31 +1,140 @@
-# NEXORA: EXPLORE. LEARN. INNOVATE.
-MERN technology blog. React + Vite (client) and Express + MongoDB (server).
 
-## Run locally
-```bash
-cd server && cp .env.example .env     # fill MONGO_URI, JWT_SECRET, ADMIN_*, CLOUDINARY_*
-npm install && npm run seed && npm run dev    # API on :5000
-cd ../client && cp .env.example .env && npm install && npm run dev   # site on :5173
+# NEXORA — Explore. Learn. Innovate.
+
+NEXORA is a modern technology blog platform built using the MERN stack. It provides a clean reading experience for users and a secure admin dashboard for managing articles, categories, authors, and comments.
+
+## Live Demo
+
+- **Website:** https://nexora-blog-nine.vercel.app/
+- **Admin Login:** https://nexora-blog-nine.vercel.app/admin/login
+- **GitHub Repository:** https://github.com/deepikasaminathan19-sketch/nexora-blog
+
+## Tech Stack
+
+### Frontend
+- React.js
+- Vite
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+- Node.js
+- Express.js
+- REST API
+- JWT Authentication
+- Mongoose
+
+### Database & Services
+- MongoDB Atlas
+- Cloudinary
+
+### Deployment
+- Vercel (Frontend)
+- Render (Backend)
+
+## Key Features
+
+- Modern and responsive blog interface
+- Browse and search technology articles
+- Explore articles by category
+- Individual article pages
+- Reading time estimation
+- Popular and related articles
+- Helpful article feedback
+- Comment submission and admin approval
+- Secure admin authentication
+- Admin dashboard for content management
+- Create, edit, publish, and delete blog posts
+- Manage categories, tags, and authors
+- Schedule articles for future publishing
+- Image uploads using Cloudinary
+- Newsletter subscription support
+- SEO-friendly sitemap and robots.txt
+
+## Project Structure
+
+```text
+nexora-blog/
+├── client/       # React frontend
+├── server/       # Express backend
+├── README.md
+└── .gitignore
 ```
-Admin login: `http://localhost:5173/admin/login` with the ADMIN_EMAIL / ADMIN_PASSWORD from `server/.env`.
 
-## How it fits together
-Browser (React) → `services/api.js` (fetch, adds the JWT) → Express routes → Mongoose models → MongoDB Atlas.
-- **Public API** (`routes/public.js`): only returns blogs where `status=published` and `publishedAt <= now`.
-- **Admin API** (`routes/admin.js`): `router.use(requireAdmin)` verifies the JWT on every route, so protection lives in the backend, not just React.
-- **Auth**: `POST /api/auth/login` checks the bcrypt hash and returns a 1-day JWT. There is no register route; `npm run seed` creates the admin.
-- **Scheduled publishing**: `server.js` runs a `node-cron` job every minute that turns due `scheduled` posts into `published`.
-- **Reading time**: computed in the Blog model before save (words / 200, rounded up, min 1). Cards show only a clock icon and "8 min".
-- **Related posts**: same category, ranked by shared tags. **Popular posts**: sorted by `views`.
-- **Comments**: saved with `approved:false`; public API returns only approved ones and never the email.
-- **Images**: Multer keeps the file in memory, then streams it to Cloudinary.
+## Run Locally
 
-## API summary
-Public: `GET /api/blogs?page&sort&category&q`, `/blogs/popular`, `/blogs/:slug`, `/blogs/:slug/comments` (GET, POST), `/blogs/:slug/helpful`, `/categories`, `/authors`, `POST /newsletter`, `/sitemap.xml`, `/robots.txt`.
-Admin (Bearer token): `/api/admin/blogs`, `/categories`, `/tags`, `/authors` (CRUD), `/comments` (list, approve, delete), `/upload`, `/stats`, `/subscribers`.
+### 1. Clone the repository
 
-## Deploy
-- **Database**: MongoDB Atlas, allow Render's IPs (or 0.0.0.0/0 while testing), copy the connection string to `MONGO_URI`.
-- **Backend on Render**: root `server`, build `npm install`, start `npm start`, add every variable from `server/.env.example`. Set `CLIENT_URL` and `SITE_URL` to the Vercel URL. Run `npm run seed` once from the Render shell.
-- **Frontend on Vercel**: root `client`, framework Vite, env `VITE_API_URL=https://<render-app>.onrender.com/api`. `vercel.json` handles React Router refreshes.
-- Never commit `.env`. Rotate any secret that leaks.
+```bash
+git clone https://github.com/deepikasaminathan19-sketch/nexora-blog.git
+cd nexora-blog
+```
+
+### 2. Start the Backend
+
+```bash
+cd server
+cp .env.example .env
+npm install
+```
+
+Configure the required environment variables in `server/.env`.
+
+```bash
+npm run seed
+npm run dev
+```
+
+Backend runs at `http://localhost:5000`.
+
+### 3. Start the Frontend
+
+Open a new terminal:
+
+```bash
+cd client
+cp .env.example .env
+npm install
+npm run dev
+```
+
+Frontend runs at `http://localhost:5173`.
+
+Set `VITE_API_URL` in the frontend environment file to your backend API URL.
+
+## Admin Dashboard
+
+Access the admin login page:
+
+`http://localhost:5173/admin/login`
+
+Use the administrator credentials configured in the backend environment variables.
+
+The admin dashboard supports:
+- Article management
+- Categories, tags, and authors
+- Comment moderation
+- Scheduled publishing
+- Dashboard statistics
+
+## Deployment
+
+- **Frontend:** Deployed on Vercel.
+- **Backend:** Deployed on Render.
+- **Database:** MongoDB Atlas.
+- **Image Storage:** Cloudinary.
+
+The frontend communicates with the deployed backend through the configured `VITE_API_URL`.
+
+## Security
+
+- Passwords are protected using bcrypt hashing.
+- Admin routes are secured using JWT authentication.
+- Public APIs display published articles only.
+- Comments require admin approval before appearing publicly.
+- Environment files containing secrets are excluded from version control.
+
+---
+
+**NEXORA — Explore. Learn. Innovate.**
